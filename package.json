@@ -1,0 +1,25 @@
+{
+  "name": "bank-kata",
+  "version": "1.0.0",
+  "description": "Bank kata in TypeScript",
+  "scripts": {
+    "test": "mocha --loader=ts-node/esm  -r ts-node/register test/**/*.test.ts"
+  },
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "@eslint/js": "^9.14.0",
+    "@tsconfig/node-lts-strictest-esm": "^18.12.1",
+    "@types/chai": "^5.0.1",
+    "@types/eslint__js": "^8.42.3",
+    "@types/mocha": "^10.0.9",
+    "@types/node": "^22.9.0",
+    "chai": "^5.1.2",
+    "eslint": "^9.14.0",
+    "mocha": "^10.8.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.14.0"
+  },
+  "type": "module"
+}

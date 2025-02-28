@@ -1,0 +1,29 @@
+{
+  "extends": "@tsconfig/node-lts-strictest-esm/tsconfig.json",
+  "compilerOptions": {
+    "strictNullChecks": true,
+    "sourceMap": false,
+    "declaration": true,
+    "stripInternal": true,
+    "outDir": "dist",
+    "noImplicitOverride": true,
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "useUnknownInCatchVariables": false,
+    "emitDeclarationOnly": true,
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": false,
+    "ignoreDeprecations": "5.0"
+  },
+  "include": [
+    "src/**/*",
+    "test/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ],
+  "ts-node": {
+    "esm": true, // «———— enabling ESM for ts-node
+  },
+}
