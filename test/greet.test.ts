@@ -13,3 +13,8 @@ it("handle null", () => {
 it("handle shouting", () => {
   expect(greet("ALICE")).to.equal("HELLO, ALICE!");
 });
+
+it("handle two names", () => {
+  expect(greet(["Bob", "Alice"])).to.equal("Hello, Bob and Alice");
+  expect(greet(["Peter", "Alice"])).to.equal("Hello, Peter and Alice");
+});

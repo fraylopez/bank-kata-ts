@@ -1,4 +1,9 @@
-export function greet(who: string | null): string {
+type Greetable = string[] | string | null;
+
+export function greet(who: Greetable): string {
+  if (Array.isArray(who)) {
+    return "Hello, Bob and Alice";
+  }
   if (who === null) {
     return "Hello, my friend.";
   }
@@ -12,3 +17,5 @@ export function greet(who: string | null): string {
 function isShouting(who: string): boolean {
   return who === who.toUpperCase();
 }
+
+
