@@ -8,7 +8,7 @@ export function greet(who: Greetable): string {
     return handleNull();
   }
   if (isShouting(who as string)) {
-    return `HELLO, ${who}!`;
+    return handleShouting(who as string);
   }
 
   return `Hello, ${who}.`;
@@ -32,4 +32,8 @@ function handleArray(who: string[]): string {
 
 function isShouting(who: string): boolean {
   return who === who.toUpperCase();
+}
+
+function handleShouting(who: string): string {
+  return `HELLO, ${who}!`;
 }
