@@ -4,14 +4,22 @@ export function greet(who: Greetable): string {
   if (isArray(who)) {
     return handleArray(who as string[]);
   }
-  if (who === null) {
-    return "Hello, my friend.";
+  if (isNull(who)) {
+    return handleNull();
   }
   if (isShouting(who as string)) {
     return `HELLO, ${who}!`;
   }
 
   return `Hello, ${who}.`;
+}
+
+function isNull(who: Greetable): boolean {
+  return who === null;
+}
+
+function handleNull(): string {
+  return "Hello, my friend.";
 }
 
 function isArray(who: Greetable): boolean {
