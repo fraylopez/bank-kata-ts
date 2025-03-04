@@ -2,7 +2,7 @@ type Greetable = string[] | string | null;
 
 export function greet(who: Greetable): string {
   if (Array.isArray(who)) {
-    return "Hello, Bob and Alice";
+    return handleArray(who);
   }
   if (who === null) {
     return "Hello, my friend.";
@@ -18,4 +18,8 @@ function isShouting(who: string): boolean {
   return who === who.toUpperCase();
 }
 
+
+function handleArray(who: string[]): string {
+  return `Hello, ${who.slice(0, -1).join(", ")} and ${who.slice(-1)}`;
+}
 
