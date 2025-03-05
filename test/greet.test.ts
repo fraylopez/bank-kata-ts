@@ -32,3 +32,7 @@ it("handle shouting and normal greeting", () => {
 it("handle composed greeting", () => {
   expect(greet(["Peter", "Alice, Bob"])).to.equal("Hello, Peter, Alice and Bob.");
 });
+
+it("handle escaped grouping", () => {
+  expect(greet(["\"Alice, Bob\"", "Charlie"])).to.equal("Hello, Alice and Bob, Charlie.");
+});
