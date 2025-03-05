@@ -27,7 +27,15 @@ function isArray(who: Greetable): boolean {
 }
 
 function handleArray(who: string[]): string {
-  return `Hello, ${who.slice(0, -1).join(", ")} and ${who.slice(-1)}`;
+  const shouting = who.filter(w => isShouting(w));
+  if (shouting.length > 0) {
+    const normal = who.filter(w => !isShouting(w));
+    if (normal.length > 1 && shouting.length === 1) {
+      return `${handleArray(normal)} AND ${handleShouting(shouting[0]!)}`;
+    }
+    return `${handleNormal(normal[0]!)} AND ${handleShouting(shouting[0]!)}`;
+  }
+  return `Hello, ${who.slice(0, -1).join(", ")} and ${who.slice(-1)}.`;
 }
 
 function isShouting(who: string): boolean {
@@ -35,5 +43,9 @@ function isShouting(who: string): boolean {
 }
 
 function handleShouting(who: string): string {
-  return `HELLO, ${who}!`;
+  return `HELLO ${who}!`;
+}
+
+function handleNormal(who: string): string {
+  return `Hello, ${who}.`;
 }

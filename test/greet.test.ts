@@ -11,18 +11,19 @@ it("handle null", () => {
 });
 
 it("handle shouting", () => {
-  expect(greet("ALICE")).to.equal("HELLO, ALICE!");
+  expect(greet("ALICE")).to.equal("HELLO ALICE!");
 });
 
 it("handle two names", () => {
-  expect(greet(["Bob", "Alice"])).to.equal("Hello, Bob and Alice");
-  expect(greet(["Peter", "Alice"])).to.equal("Hello, Peter and Alice");
+  expect(greet(["Bob", "Alice"])).to.equal("Hello, Bob and Alice.");
+  expect(greet(["Peter", "Alice"])).to.equal("Hello, Peter and Alice.");
 });
 
 it("handle three names", () => {
-  expect(greet(["Peter", "Alice", "Bob"])).to.equal("Hello, Peter, Alice and Bob");
+  expect(greet(["Peter", "Alice", "Bob"])).to.equal("Hello, Peter, Alice and Bob.");
 });
 
 it("handle shouting and normal greeting", () => {
   expect(greet(["Peter", "ALICE", "Bob"])).to.equal("Hello, Peter and Bob. AND HELLO ALICE!");
+  expect(greet(["Peter", "ALICE"])).to.equal("Hello, Peter. AND HELLO ALICE!");
 });
