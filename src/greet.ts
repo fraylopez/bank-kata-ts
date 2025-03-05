@@ -1,6 +1,9 @@
 type Greetable = string[] | string | null;
 
 export function greet(who: Greetable): string {
+  if (isComposed(who)) {
+    return greet(decompose(who as string | string[]));
+  }
   if (isArray(who)) {
     return handleArray(who as string[]);
   }
@@ -48,4 +51,20 @@ function handleShouting(who: string): string {
 
 function handleNormal(who: string): string {
   return `Hello, ${who}.`;
+}
+function isComposed(who: Greetable): boolean {
+  return typeof who === 'string' && who.includes(',') ||
+    Array.isArray(who) && who.some(w => w.includes(','));
+}
+
+function decompose(who: string | string[]): string[] {
+  if (typeof who === 'string') {
+    return who.split(',').map(w => w.trim());
+  }
+  return who.reduce((acc: string[], w: string) => {
+    if (w.includes(',')) {
+      return [...acc, ...w.split(',').map(w => w.trim())];
+    }
+    return [...acc, w];
+  }, []);
 }

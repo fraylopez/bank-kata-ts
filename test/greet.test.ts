@@ -28,3 +28,7 @@ it("handle shouting and normal greeting", () => {
   expect(greet(["Peter", "ALICE"])).to.equal("Hello, Peter. AND HELLO ALICE!");
   expect(greet(["PETER", "Alice"])).to.equal("Hello, Alice. AND HELLO PETER!");
 });
+
+it("handle couple greeting", () => {
+  expect(greet(["Peter", "Alice, Bob"])).to.equal("Hello, Peter, Alice and Bob.");
+});
