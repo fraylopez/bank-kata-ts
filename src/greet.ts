@@ -1,20 +1,34 @@
 type Greetable = string[] | string | null;
 
-export function greet(who: Greetable): string {
-  if (isComposed(who)) {
-    return greet(decompose(who as string | string[]));
+const greeters = [
+  {
+    is: (who: Greetable) => isComposed(who),
+    greet: (who: Greetable) => handleComposed(who as string | string[])
+  },
+  {
+    is: (who: Greetable) => isNull(who),
+    greet: () => handleNull()
+  },
+  {
+    is: (who: Greetable) => isArray(who),
+    greet: (who: Greetable) => handleArray(who as string[])
+  },
+  {
+    is: (who: Greetable) => isShouting(who as string),
+    greet: (who: Greetable) => handleShouting(who as string)
+  },
+  {
+    is: () => true,
+    greet: (who: Greetable) => handleNormal(who as string)
   }
-  if (isArray(who)) {
-    return handleArray(who as string[]);
-  }
-  if (isNull(who)) {
-    return handleNull();
-  }
-  if (isShouting(who as string)) {
-    return handleShouting(who as string);
-  }
+];
 
-  return `Hello, ${who}.`;
+export function greet(who: Greetable): string {
+  const greeter = greeters.find(h => h.is(who));
+  if (!greeter) {
+    throw new Error('No handler found');
+  }
+  return greeter.greet(who);
 }
 
 function isNull(who: Greetable): boolean {
@@ -57,14 +71,18 @@ function isComposed(who: Greetable): boolean {
     Array.isArray(who) && who.some(w => w.includes(','));
 }
 
-function decompose(who: string | string[]): string[] {
+function handleComposed(who: string | string[]): string {
+  let decomposed: string[];
   if (typeof who === 'string') {
-    return who.split(',').map(w => w.trim());
+    decomposed = who.split(',').map(w => w.trim());
   }
-  return who.reduce((acc: string[], w: string) => {
-    if (w.includes(',')) {
-      return [...acc, ...w.split(',').map(w => w.trim())];
-    }
-    return [...acc, w];
-  }, []);
+  else {
+    decomposed = who.reduce((acc: string[], w: string) => {
+      if (w.includes(',')) {
+        return [...acc, ...w.split(',').map(w => w.trim())];
+      }
+      return [...acc, w];
+    }, []);
+  }
+  return handleArray(decomposed);
 }
