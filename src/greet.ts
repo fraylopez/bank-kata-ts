@@ -85,10 +85,7 @@ function handleComposed(who: string[]): string {
 }
 
 function isEscaped(who: Greetable): boolean {
-  if (Array.isArray(who)) {
-    return who.some(w => w.startsWith('"') && w.endsWith('"'));
-  }
-  return false;
+  return Array.isArray(who) && who.some(w => w.startsWith('"') && w.endsWith('"'));
 }
 
 function handleEscaped(who: string[]): string {
