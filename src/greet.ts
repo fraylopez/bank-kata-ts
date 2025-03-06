@@ -7,7 +7,7 @@ const greeters = [
   },
   {
     is: (who: Greetable) => isComposed(who),
-    greet: (who: Greetable) => handleComposed(who as string | string[])
+    greet: (who: Greetable) => handleComposed(who as string[])
   },
   {
     is: (who: Greetable) => isNull(who),
@@ -75,19 +75,13 @@ function isComposed(who: Greetable): boolean {
     Array.isArray(who) && who.some(w => w.includes(','));
 }
 
-function handleComposed(who: string | string[]): string {
-  let decomposed: string[];
-  if (typeof who === 'string') {
-    decomposed = who.split(',').map(w => w.trim());
-  }
-  else {
-    decomposed = who.reduce((acc: string[], w: string) => {
-      if (w.includes(',')) {
-        return [...acc, ...w.split(',').map(w => w.trim())];
-      }
-      return [...acc, w];
-    }, []);
-  }
+function handleComposed(who: string[]): string {
+  const decomposed = who.reduce((acc: string[], w: string) => {
+    if (w.includes(',')) {
+      return [...acc, ...w.split(',').map(w => w.trim())];
+    }
+    return [...acc, w];
+  }, []);
   return handleArray(decomposed);
 }
 
