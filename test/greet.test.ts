@@ -1,7 +1,6 @@
 import { expect } from "chai";
 import { greet } from "../src/greet.ts";
 
-
 it("interpolates name", () => {
   expect(greet("Alice")).to.equal("Hello, Alice.");
 });

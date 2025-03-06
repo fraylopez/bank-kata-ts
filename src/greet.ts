@@ -3,7 +3,7 @@ type Greetable = string[] | string | null;
 const greeters = [
   {
     is: (who: Greetable) => isEscaped(who),
-    greet: (who: Greetable) => handleEscaped(who as string | string[])
+    greet: (who: Greetable) => handleEscaped(who as string[])
   },
   {
     is: (who: Greetable) => isComposed(who),
@@ -92,9 +92,16 @@ function handleComposed(who: string | string[]): string {
 }
 
 function isEscaped(who: Greetable): boolean {
-  return typeof who === 'string' && who.startsWith('"') && who.endsWith('"');
+  if (Array.isArray(who)) {
+    return who.some(w => w.startsWith('"') && w.endsWith('"'));
+  }
+  return false;
 }
 
-function handleEscaped(_who: string | string[]): string {
-  throw `Not implemented`;
+function handleEscaped(who: string[]): string {
+  return `Hello, ${(who.map(unescape)).join(', ')}.`;
+}
+
+function unescape(who: string): string {
+  return who.replace(/^"|"$/g, '').replace(',', ' and');
 }
