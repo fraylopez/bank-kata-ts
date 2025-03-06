@@ -71,8 +71,7 @@ function handleNormal(who: string): string {
   return `Hello, ${who}.`;
 }
 function isComposed(who: Greetable): boolean {
-  return typeof who === 'string' && who.includes(',') ||
-    Array.isArray(who) && who.some(w => w.includes(','));
+  return Array.isArray(who) && who.some(w => w.includes(','));
 }
 
 function handleComposed(who: string[]): string {
