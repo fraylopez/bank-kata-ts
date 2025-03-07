@@ -49,12 +49,19 @@ function isArray(who: Greetable): boolean {
 
 function handleArray(who: string[]): string {
   const shouting = who.filter(w => isShouting(w));
-  if (shouting.length > 0) {
-    const normal = who.filter(w => !isShouting(w));
-    if (normal.length > 1 && shouting.length === 1) {
-      return `${handleArray(normal)} AND ${handleShouting(shouting[0]!)}`;
-    }
-    return `${handleNormal(normal[0]!)} AND ${handleShouting(shouting[0]!)}`;
+  const normal = who.filter(w => !isShouting(w));
+
+  const greetNormal = handleManyNormal(normal);
+  if (shouting.length === 0) {
+    return greetNormal;
+  }
+  const greetShouting = shouting.map(handleShouting).join(' AND ');
+  return `${greetNormal} AND ${greetShouting}`;
+}
+
+function handleManyNormal(who: string[]): string {
+  if (who.length === 1) {
+    return handleNormal(who[0]);
   }
   return `Hello, ${who.slice(0, -1).join(", ")} and ${who.slice(-1)}.`;
 }
