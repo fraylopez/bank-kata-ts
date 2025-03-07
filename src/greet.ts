@@ -1,38 +1,40 @@
 type Greetable = string[] | string | null;
+type NonNullGreetable = string[] | string;
 
-const greeters = [
+
+type Greeter = {
+  is: (who: NonNullGreetable) => boolean;
+  greet: (who: string & string[]) => string;
+};
+const greeters: Greeter[] = [
   {
-    is: (who: Greetable) => isEscaped(who),
-    greet: (who: Greetable) => handleEscaped(who as string[])
+    is: (who: NonNullGreetable) => isEscaped(who),
+    greet: (who: string[]) => handleEscaped(who)
   },
   {
-    is: (who: Greetable) => isComposed(who),
-    greet: (who: Greetable) => handleComposed(who as string[])
+    is: (who: NonNullGreetable) => isComposed(who),
+    greet: (who: string[]) => handleComposed(who)
   },
   {
-    is: (who: Greetable) => isNull(who),
-    greet: () => handleNull()
+    is: (who: NonNullGreetable) => isArray(who),
+    greet: (who: string[]) => handleArray(who)
   },
   {
-    is: (who: Greetable) => isArray(who),
-    greet: (who: Greetable) => handleArray(who as string[])
-  },
-  {
-    is: (who: Greetable) => isShouting(who as string),
-    greet: (who: Greetable) => handleShouting(who as string)
+    is: (who: NonNullGreetable) => isShouting(who),
+    greet: (who: string) => handleShouting(who)
   },
   {
     is: () => true,
-    greet: (who: Greetable) => handleNormal(who as string)
+    greet: (who: string) => handleNormal(who)
   }
 ];
 
 export function greet(who: Greetable): string {
-  const greeter = greeters.find(h => h.is(who));
-  if (!greeter) {
-    throw new Error('No handler found');
+  if (isNull(who)) {
+    return handleNull();
   }
-  return greeter.greet(who);
+  const greeter = greeters.find(h => h.is(who as NonNullGreetable))!;
+  return greeter.greet(who as string & string[]);
 }
 
 function isNull(who: Greetable): boolean {
@@ -66,7 +68,10 @@ function handleManyNormal(who: string[]): string {
   return `Hello, ${who.slice(0, -1).join(", ")} and ${who.slice(-1)}.`;
 }
 
-function isShouting(who: string): boolean {
+function isShouting(who: NonNullGreetable): boolean {
+  if (Array.isArray(who)) {
+    return who.some(w => isShouting(w));
+  }
   return who === who.toUpperCase();
 }
 
@@ -77,7 +82,7 @@ function handleShouting(who: string): string {
 function handleNormal(who: string): string {
   return `Hello, ${who}.`;
 }
-function isComposed(who: Greetable): boolean {
+function isComposed(who: NonNullGreetable): boolean {
   return Array.isArray(who) && who.some(w => w.includes(','));
 }
 
