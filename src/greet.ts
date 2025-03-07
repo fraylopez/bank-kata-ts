@@ -50,13 +50,13 @@ function isArray(who: Greetable): boolean {
 }
 
 function handleArray(who: string[]): string {
-  const shouting = who.filter(w => isShouting(w));
   const normal = who.filter(w => !isShouting(w));
-
-  const greetNormal = handleManyNormal(normal);
-  if (shouting.length === 0) {
-    return greetNormal;
+  const everyoneIsNormal = normal.length === who.length;
+  if (everyoneIsNormal) {
+    return handleManyNormal(normal);
   }
+  const shouting = who.filter(w => isShouting(w));
+  const greetNormal = handleManyNormal(normal);
   const greetShouting = shouting.map(handleShouting).join(' AND ');
   return `${greetNormal} AND ${greetShouting}`;
 }
